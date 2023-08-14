@@ -14,7 +14,7 @@ def send_slack_message(titulo, descricao):
   hora = __captura_hora_local()
   horastr = hora.strftime("%d/%m/%Y - %H:%M:%S")
   payload = {"text": horastr + " - "+titulo + " - "+descricao}
-  webhook = "https://hooks.slack.com/services/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"
+  webhook = ""
   requests.post(webhook, json.dumps(payload))
 
 
