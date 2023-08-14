@@ -1,0 +1,41 @@
+image: python:3.10
+
+stages:
+  - build
+  - plan
+  - deploy
+
+build:
+  stage: build
+  script:
+    - python --version
+    - pip install -r main/requirements.txt -t .
+    - apt-get update && apt-get install -y zip
+    - zip code.zip main/main.py main/requirements.txt
+
+  artifacts:
+    paths:
+      - code.zip
+
+plan:
+  stage: plan
+  script:
+    - curl -Lo terraform.zip https://releases.hashicorp.com/terraform/0.15.0/terraform_0.15.0_linux_amd64.zip
+    - unzip terraform.zip
+    - mv terraform /usr/local/bin/
+    - cp code.zip infra/  # Copia o code.zip para dentro da pasta infra
+    - cd infra  # Navega até a pasta infra
+    - terraform init
+    - terraform workspace new dev || true ; terraform workspace select dev ; terraform validate
+    - terraform plan
+
+deploy:
+  stage: deploy
+  script:
+    - curl -Lo terraform.zip https://releases.hashicorp.com/terraform/0.15.0/terraform_0.15.0_linux_amd64.zip
+    - unzip terraform.zip
+    - mv terraform /usr/local/bin/
+    - cp code.zip infra/  # Copia o code.zip para dentro da pasta infra
+    - cd infra  # Navega até a pasta infra
+    - terraform init
+    - terraform apply -auto-approve
