@@ -1,6 +1,5 @@
 build:
-	virtualenv -p /usr/bin/python3.8 asgard
-	source asgard/bin/activate
-	pip freeze > requirements.txt
-	pip install -r requirements.txt -t .
-	zip -r package.zip asgard/pipp
+	rm -f main 
+	rm -f deployment.zip
+	GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o main main.go
+	zip deployment.zip main
