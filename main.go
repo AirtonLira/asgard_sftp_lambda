@@ -61,7 +61,7 @@ type DatabricksJobRunRequest struct {
 }
 
 func sendToSlack(message string) {
-	webhookURL := "https://hooks.slack.com/services/T03E68ER141/B05TK210VUZ/xxxxxxxxxxx"
+	webhookURL := "https://hooks.slack.com/services/T03E68ER141/B05TK210VUZ/xxxxxxxxxxxxxxxxxx"
 	slackBody, _ := json.Marshal(SlackMessage{Text: message})
 	req, err := http.NewRequest(http.MethodPost, webhookURL, bytes.NewBuffer(slackBody))
 	if err != nil {
@@ -98,8 +98,8 @@ func startJobDatabricks() {
 	}
 
 	// Faça a requisição HTTP POST para a API do Databricks
-	apiURL := "https://xxxxxxx.cloud.databricks.com/api/2.0/jobs/run-now"
-	apiToken := "xxxxxxxxxxxxxxx"
+	apiURL := "https://dbc-xxxxxxxxxxxxxxxxxx-xxxxxxxxxxxxxxxxxx.cloud.databricks.com/api/2.0/jobs/run-now"
+	apiToken := "xxxxxxxxxxxxxxxxxx"
 
 	req, err := http.NewRequest("POST", apiURL, bytes.NewBuffer(jsonData))
 	if err != nil {
@@ -142,7 +142,7 @@ func HandleRequest() {
 
 	arquivosImport := 0
 	countArquivos := 0
-	resp, err := http.Get("xxxxxxxxxxxx")
+	resp, err := http.Get("https://api.snxpay.com/atena/api/v1/issuers?filter=active%7C%7C$eq%7C%7Ctrue&limit=1000&page=1&filter=ftpUsername%7C%7Cnotnull")
 	if err != nil {
 		logMessage := fmt.Sprintf("%s - ERROR - Erro ao consumir a API: %v", time.Now().Format("2006-01-02 15:04:05"), err)
 		log.Println(logMessage)
